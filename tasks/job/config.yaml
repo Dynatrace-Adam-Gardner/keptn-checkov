@@ -12,6 +12,6 @@ actions:
           - '-f'
           - /keptn/checkov/plan1.json
           - '--framework'
-          - 'terraform_plan'
+          - 'terraform'
           - '-o'
           - 'json'
