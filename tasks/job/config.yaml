@@ -1,0 +1,14 @@
+apiVersion: v2
+actions:
+  - name: "Run Checkov Container"
+    events:
+      - name: "sh.keptn.event.securityscan.triggered"
+    tasks:
+      - name: "Scan Files with Checkov"
+        image: "bridgecrew/checkov:2.0.765"
+        files:
+          - "checkov/plan1.json"
+        args:
+          - "-f /keptn/checkov/plan1.json"
+          - "-o json"
+          - "--framework terraform"
