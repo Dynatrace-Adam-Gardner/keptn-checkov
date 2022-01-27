@@ -10,5 +10,5 @@ actions:
           - "checkov/plan1.json"
         args:
           - "-f /keptn/checkov/plan1.json"
-          - "-o json"
           - "--framework terraform"
+          - "-o json"
