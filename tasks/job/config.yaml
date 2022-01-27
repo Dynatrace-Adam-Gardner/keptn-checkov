@@ -7,10 +7,10 @@ actions:
       - name: "Scan Files with Checkov"
         image: "bridgecrew/checkov:2.0.765"
         files:
-          - "checkov/plan1.json"
+          - checkov/plan1.json
         args:
           - '-f'
-          - '/keptn/checkov/plan1.json'
+          - /keptn/checkov/plan1.json
           - '--framework'
           - 'terraform'
           - '-o'
