@@ -1,0 +1,1165 @@
+{
+    "format_version": "0.1",
+    "terraform_version": "0.15.4",
+    "variables": {
+        "acebox_os": {
+            "value": "ubuntu-minimal-1804-lts"
+        },
+        "acebox_size": {
+            "value": "n2-standard-8"
+        },
+        "acebox_user": {
+            "value": "user"
+        },
+        "custom_domain": {
+            "value": ""
+        },
+        "disk_size": {
+            "value": "60"
+        },
+        "dt_api_token": {
+            "value": "dt0c01.example"
+        },
+        "dt_paas_token": {
+            "value": "dt0c01.example"
+        },
+        "dt_tenant": {
+            "value": "https://abc12345.live.dynatrace.com"
+        },
+        "gcloud_cred_file": {
+            "value": "x:/example.json"
+        },
+        "gcloud_project": {
+            "value": "example"
+        },
+        "gcloud_zone": {
+            "value": "us-central1-a"
+        },
+        "ingress_protocol": {
+            "value": "http"
+        },
+        "managed_zone_name": {
+            "value": ""
+        },
+        "name_prefix": {
+            "value": "ace-box-cloud"
+        },
+        "private_ssh_key": {
+            "value": "./key"
+        }
+    },
+    "planned_values": {
+        "outputs": {
+            "acebox_dashboard": {
+                "sensitive": false
+            },
+            "acebox_ip": {
+                "sensitive": true
+            },
+            "comment": {
+                "sensitive": false,
+                "value": "More information about dashboard credentials is printed out as part of the last provisioning step. Please scroll up."
+            }
+        },
+        "root_module": {
+            "resources": [{
+                    "address": "google_compute_address.acebox",
+                    "mode": "managed",
+                    "type": "google_compute_address",
+                    "name": "acebox",
+                    "provider_name": "registry.terraform.io/hashicorp/google",
+                    "schema_version": 0,
+                    "values": {
+                        "address_type": "EXTERNAL",
+                        "description": null,
+                        "network": null,
+                        "prefix_length": null,
+                        "timeouts": null
+                    }
+                }, {
+                    "address": "google_compute_firewall.acebox-http",
+                    "mode": "managed",
+                    "type": "google_compute_firewall",
+                    "name": "acebox-http",
+                    "provider_name": "registry.terraform.io/hashicorp/google",
+                    "schema_version": 1,
+                    "values": {
+                        "allow": [{
+                                "ports": ["80"],
+                                "protocol": "tcp"
+                            }
+                        ],
+                        "deny": [],
+                        "description": null,
+                        "disabled": null,
+                        "log_config": [],
+                        "network": "default",
+                        "priority": 1000,
+                        "source_ranges": ["0.0.0.0/0"],
+                        "source_service_accounts": null,
+                        "source_tags": null,
+                        "target_service_accounts": null,
+                        "timeouts": null
+                    }
+                }, {
+                    "address": "google_compute_firewall.acebox-https",
+                    "mode": "managed",
+                    "type": "google_compute_firewall",
+                    "name": "acebox-https",
+                    "provider_name": "registry.terraform.io/hashicorp/google",
+                    "schema_version": 1,
+                    "values": {
+                        "allow": [{
+                                "ports": ["443", "16443"],
+                                "protocol": "tcp"
+                            }
+                        ],
+                        "deny": [],
+                        "description": null,
+                        "disabled": null,
+                        "log_config": [],
+                        "network": "default",
+                        "priority": 1000,
+                        "source_ranges": ["0.0.0.0/0"],
+                        "source_service_accounts": null,
+                        "source_tags": null,
+                        "target_service_accounts": null,
+                        "timeouts": null
+                    }
+                }, {
+                    "address": "google_compute_instance.acebox",
+                    "mode": "managed",
+                    "type": "google_compute_instance",
+                    "name": "acebox",
+                    "provider_name": "registry.terraform.io/hashicorp/google",
+                    "schema_version": 6,
+                    "values": {
+                        "advanced_machine_features": [],
+                        "allow_stopping_for_update": null,
+                        "attached_disk": [],
+                        "boot_disk": [{
+                                "auto_delete": true,
+                                "disk_encryption_key_raw": null,
+                                "initialize_params": [{
+                                        "image": "ubuntu-minimal-1804-lts",
+                                        "size": 60
+                                    }
+                                ],
+                                "mode": "READ_WRITE"
+                            }
+                        ],
+                        "can_ip_forward": false,
+                        "deletion_protection": false,
+                        "description": null,
+                        "desired_status": null,
+                        "enable_display": null,
+                        "hostname": null,
+                        "labels": null,
+                        "machine_type": "n2-standard-8",
+                        "metadata_startup_script": null,
+                        "network_interface": [{
+                                "access_config": [{
+                                        "public_ptr_domain_name": null
+                                    }
+                                ],
+                                "alias_ip_range": [],
+                                "ipv6_access_config": [],
+                                "network": "default",
+                                "nic_type": null,
+                                "queue_count": null
+                            }
+                        ],
+                        "resource_policies": null,
+                        "scratch_disk": [],
+                        "service_account": [],
+                        "shielded_instance_config": [],
+                        "timeouts": null,
+                        "zone": "us-central1-a"
+                    }
+                }, {
+                    "address": "local_file.acebox_pem",
+                    "mode": "managed",
+                    "type": "local_file",
+                    "name": "acebox_pem",
+                    "provider_name": "registry.terraform.io/hashicorp/local",
+                    "schema_version": 0,
+                    "values": {
+                        "content_base64": null,
+                        "directory_permission": "0777",
+                        "file_permission": "400",
+                        "filename": "././key",
+                        "sensitive_content": null
+                    }
+                }, {
+                    "address": "random_id.uuid",
+                    "mode": "managed",
+                    "type": "random_id",
+                    "name": "uuid",
+                    "provider_name": "registry.terraform.io/hashicorp/random",
+                    "schema_version": 0,
+                    "values": {
+                        "byte_length": 4,
+                        "keepers": null,
+                        "prefix": null
+                    }
+                }, {
+                    "address": "tls_private_key.acebox_key",
+                    "mode": "managed",
+                    "type": "tls_private_key",
+                    "name": "acebox_key",
+                    "provider_name": "registry.terraform.io/hashicorp/tls",
+                    "schema_version": 0,
+                    "values": {
+                        "algorithm": "RSA",
+                        "ecdsa_curve": "P224",
+                        "rsa_bits": 4096
+                    }
+                }
+            ],
+            "child_modules": [{
+                    "resources": [{
+                            "address": "module.provisioner.null_resource.provisioner_ace_install",
+                            "mode": "managed",
+                            "type": "null_resource",
+                            "name": "provisioner_ace_install",
+                            "provider_name": "registry.terraform.io/hashicorp/null",
+                            "schema_version": 0,
+                            "values": {
+                                "triggers": null
+                            }
+                        }, {
+                            "address": "module.provisioner.null_resource.provisioner_ace_prepare",
+                            "mode": "managed",
+                            "type": "null_resource",
+                            "name": "provisioner_ace_prepare",
+                            "provider_name": "registry.terraform.io/hashicorp/null",
+                            "schema_version": 0,
+                            "values": {
+                                "triggers": null
+                            }
+                        }, {
+                            "address": "module.provisioner.null_resource.provisioner_home_dir",
+                            "mode": "managed",
+                            "type": "null_resource",
+                            "name": "provisioner_home_dir",
+                            "provider_name": "registry.terraform.io/hashicorp/null",
+                            "schema_version": 0,
+                            "values": {
+                                "triggers": null
+                            }
+                        }, {
+                            "address": "module.provisioner.null_resource.provisioner_init",
+                            "mode": "managed",
+                            "type": "null_resource",
+                            "name": "provisioner_init",
+                            "provider_name": "registry.terraform.io/hashicorp/null",
+                            "schema_version": 0,
+                            "values": {
+                                "triggers": null
+                            }
+                        }
+                    ],
+                    "address": "module.provisioner"
+                }
+            ]
+        }
+    },
+    "resource_changes": [{
+            "address": "google_compute_address.acebox",
+            "mode": "managed",
+            "type": "google_compute_address",
+            "name": "acebox",
+            "provider_name": "registry.terraform.io/hashicorp/google",
+            "change": {
+                "actions": ["create"],
+                "before": null,
+                "after": {
+                    "address_type": "EXTERNAL",
+                    "description": null,
+                    "network": null,
+                    "prefix_length": null,
+                    "timeouts": null
+                },
+                "after_unknown": {
+                    "address": true,
+                    "creation_timestamp": true,
+                    "id": true,
+                    "name": true,
+                    "network_tier": true,
+                    "project": true,
+                    "purpose": true,
+                    "region": true,
+                    "self_link": true,
+                    "subnetwork": true,
+                    "users": true
+                },
+                "before_sensitive": false,
+                "after_sensitive": {
+                    "users": []
+                }
+            }
+        }, {
+            "address": "google_compute_firewall.acebox-http",
+            "mode": "managed",
+            "type": "google_compute_firewall",
+            "name": "acebox-http",
+            "provider_name": "registry.terraform.io/hashicorp/google",
+            "change": {
+                "actions": ["create"],
+                "before": null,
+                "after": {
+                    "allow": [{
+                            "ports": ["80"],
+                            "protocol": "tcp"
+                        }
+                    ],
+                    "deny": [],
+                    "description": null,
+                    "disabled": null,
+                    "log_config": [],
+                    "network": "default",
+                    "priority": 1000,
+                    "source_ranges": ["0.0.0.0/0"],
+                    "source_service_accounts": null,
+                    "source_tags": null,
+                    "target_service_accounts": null,
+                    "timeouts": null
+                },
+                "after_unknown": {
+                    "allow": [{
+                            "ports": [false]
+                        }
+                    ],
+                    "creation_timestamp": true,
+                    "deny": [],
+                    "destination_ranges": true,
+                    "direction": true,
+                    "enable_logging": true,
+                    "id": true,
+                    "log_config": [],
+                    "name": true,
+                    "project": true,
+                    "self_link": true,
+                    "source_ranges": [false],
+                    "target_tags": true
+                },
+                "before_sensitive": false,
+                "after_sensitive": {
+                    "allow": [{
+                            "ports": [false]
+                        }
+                    ],
+                    "deny": [],
+                    "destination_ranges": [],
+                    "log_config": [],
+                    "source_ranges": [false],
+                    "target_tags": []
+                }
+            }
+        }, {
+            "address": "google_compute_firewall.acebox-https",
+            "mode": "managed",
+            "type": "google_compute_firewall",
+            "name": "acebox-https",
+            "provider_name": "registry.terraform.io/hashicorp/google",
+            "change": {
+                "actions": ["create"],
+                "before": null,
+                "after": {
+                    "allow": [{
+                            "ports": ["443", "16443"],
+                            "protocol": "tcp"
+                        }
+                    ],
+                    "deny": [],
+                    "description": null,
+                    "disabled": null,
+                    "log_config": [],
+                    "network": "default",
+                    "priority": 1000,
+                    "source_ranges": ["0.0.0.0/0"],
+                    "source_service_accounts": null,
+                    "source_tags": null,
+                    "target_service_accounts": null,
+                    "timeouts": null
+                },
+                "after_unknown": {
+                    "allow": [{
+                            "ports": [false, false]
+                        }
+                    ],
+                    "creation_timestamp": true,
+                    "deny": [],
+                    "destination_ranges": true,
+                    "direction": true,
+                    "enable_logging": true,
+                    "id": true,
+                    "log_config": [],
+                    "name": true,
+                    "project": true,
+                    "self_link": true,
+                    "source_ranges": [false],
+                    "target_tags": true
+                },
+                "before_sensitive": false,
+                "after_sensitive": {
+                    "allow": [{
+                            "ports": [false, false]
+                        }
+                    ],
+                    "deny": [],
+                    "destination_ranges": [],
+                    "log_config": [],
+                    "source_ranges": [false],
+                    "target_tags": []
+                }
+            }
+        }, {
+            "address": "google_compute_instance.acebox",
+            "mode": "managed",
+            "type": "google_compute_instance",
+            "name": "acebox",
+            "provider_name": "registry.terraform.io/hashicorp/google",
+            "change": {
+                "actions": ["create"],
+                "before": null,
+                "after": {
+                    "advanced_machine_features": [],
+                    "allow_stopping_for_update": null,
+                    "attached_disk": [],
+                    "boot_disk": [{
+                            "auto_delete": true,
+                            "disk_encryption_key_raw": null,
+                            "initialize_params": [{
+                                    "image": "ubuntu-minimal-1804-lts",
+                                    "size": 60
+                                }
+                            ],
+                            "mode": "READ_WRITE"
+                        }
+                    ],
+                    "can_ip_forward": false,
+                    "deletion_protection": false,
+                    "description": null,
+                    "desired_status": null,
+                    "enable_display": null,
+                    "hostname": null,
+                    "labels": null,
+                    "machine_type": "n2-standard-8",
+                    "metadata_startup_script": null,
+                    "network_interface": [{
+                            "access_config": [{
+                                    "public_ptr_domain_name": null
+                                }
+                            ],
+                            "alias_ip_range": [],
+                            "ipv6_access_config": [],
+                            "network": "default",
+                            "nic_type": null,
+                            "queue_count": null
+                        }
+                    ],
+                    "resource_policies": null,
+                    "scratch_disk": [],
+                    "service_account": [],
+                    "shielded_instance_config": [],
+                    "timeouts": null,
+                    "zone": "us-central1-a"
+                },
+                "after_unknown": {
+                    "advanced_machine_features": [],
+                    "attached_disk": [],
+                    "boot_disk": [{
+                            "device_name": true,
+                            "disk_encryption_key_sha256": true,
+                            "initialize_params": [{
+                                    "labels": true,
+                                    "type": true
+                                }
+                            ],
+                            "kms_key_self_link": true,
+                            "source": true
+                        }
+                    ],
+                    "confidential_instance_config": true,
+                    "cpu_platform": true,
+                    "current_status": true,
+                    "guest_accelerator": true,
+                    "id": true,
+                    "instance_id": true,
+                    "label_fingerprint": true,
+                    "metadata": true,
+                    "metadata_fingerprint": true,
+                    "min_cpu_platform": true,
+                    "name": true,
+                    "network_interface": [{
+                            "access_config": [{
+                                    "nat_ip": true,
+                                    "network_tier": true
+                                }
+                            ],
+                            "alias_ip_range": [],
+                            "ipv6_access_config": [],
+                            "ipv6_access_type": true,
+                            "name": true,
+                            "network_ip": true,
+                            "stack_type": true,
+                            "subnetwork": true,
+                            "subnetwork_project": true
+                        }
+                    ],
+                    "project": true,
+                    "reservation_affinity": true,
+                    "scheduling": true,
+                    "scratch_disk": [],
+                    "self_link": true,
+                    "service_account": [],
+                    "shielded_instance_config": [],
+                    "tags": true,
+                    "tags_fingerprint": true
+                },
+                "before_sensitive": false,
+                "after_sensitive": {
+                    "advanced_machine_features": [],
+                    "attached_disk": [],
+                    "boot_disk": [{
+                            "disk_encryption_key_raw": true,
+                            "initialize_params": [{
+                                    "labels": {}
+                                }
+                            ]
+                        }
+                    ],
+                    "confidential_instance_config": [],
+                    "guest_accelerator": [],
+                    "metadata": {},
+                    "network_interface": [{
+                            "access_config": [{}
+                            ],
+                            "alias_ip_range": [],
+                            "ipv6_access_config": []
+                        }
+                    ],
+                    "reservation_affinity": [],
+                    "scheduling": [],
+                    "scratch_disk": [],
+                    "service_account": [],
+                    "shielded_instance_config": [],
+                    "tags": [],
+                    "zone": true
+                }
+            }
+        }, {
+            "address": "local_file.acebox_pem",
+            "mode": "managed",
+            "type": "local_file",
+            "name": "acebox_pem",
+            "provider_name": "registry.terraform.io/hashicorp/local",
+            "change": {
+                "actions": ["create"],
+                "before": null,
+                "after": {
+                    "content_base64": null,
+                    "directory_permission": "0777",
+                    "file_permission": "400",
+                    "filename": "././key",
+                    "sensitive_content": null
+                },
+                "after_unknown": {
+                    "content": true,
+                    "id": true
+                },
+                "before_sensitive": false,
+                "after_sensitive": {
+                    "content": true,
+                    "filename": true,
+                    "sensitive_content": true
+                }
+            }
+        }, {
+            "address": "module.provisioner.null_resource.provisioner_ace_install",
+            "module_address": "module.provisioner",
+            "mode": "managed",
+            "type": "null_resource",
+            "name": "provisioner_ace_install",
+            "provider_name": "registry.terraform.io/hashicorp/null",
+            "change": {
+                "actions": ["create"],
+                "before": null,
+                "after": {
+                    "triggers": null
+                },
+                "after_unknown": {
+                    "id": true
+                },
+                "before_sensitive": false,
+                "after_sensitive": {}
+            }
+        }, {
+            "address": "module.provisioner.null_resource.provisioner_ace_prepare",
+            "module_address": "module.provisioner",
+            "mode": "managed",
+            "type": "null_resource",
+            "name": "provisioner_ace_prepare",
+            "provider_name": "registry.terraform.io/hashicorp/null",
+            "change": {
+                "actions": ["create"],
+                "before": null,
+                "after": {
+                    "triggers": null
+                },
+                "after_unknown": {
+                    "id": true
+                },
+                "before_sensitive": false,
+                "after_sensitive": {}
+            }
+        }, {
+            "address": "module.provisioner.null_resource.provisioner_home_dir",
+            "module_address": "module.provisioner",
+            "mode": "managed",
+            "type": "null_resource",
+            "name": "provisioner_home_dir",
+            "provider_name": "registry.terraform.io/hashicorp/null",
+            "change": {
+                "actions": ["create"],
+                "before": null,
+                "after": {
+                    "triggers": null
+                },
+                "after_unknown": {
+                    "id": true
+                },
+                "before_sensitive": false,
+                "after_sensitive": {}
+            }
+        }, {
+            "address": "module.provisioner.null_resource.provisioner_init",
+            "module_address": "module.provisioner",
+            "mode": "managed",
+            "type": "null_resource",
+            "name": "provisioner_init",
+            "provider_name": "registry.terraform.io/hashicorp/null",
+            "change": {
+                "actions": ["create"],
+                "before": null,
+                "after": {
+                    "triggers": null
+                },
+                "after_unknown": {
+                    "id": true
+                },
+                "before_sensitive": false,
+                "after_sensitive": {}
+            }
+        }, {
+            "address": "random_id.uuid",
+            "mode": "managed",
+            "type": "random_id",
+            "name": "uuid",
+            "provider_name": "registry.terraform.io/hashicorp/random",
+            "change": {
+                "actions": ["create"],
+                "before": null,
+                "after": {
+                    "byte_length": 4,
+                    "keepers": null,
+                    "prefix": null
+                },
+                "after_unknown": {
+                    "b64": true,
+                    "b64_std": true,
+                    "b64_url": true,
+                    "dec": true,
+                    "hex": true,
+                    "id": true
+                },
+                "before_sensitive": false,
+                "after_sensitive": {}
+            }
+        }, {
+            "address": "tls_private_key.acebox_key",
+            "mode": "managed",
+            "type": "tls_private_key",
+            "name": "acebox_key",
+            "provider_name": "registry.terraform.io/hashicorp/tls",
+            "change": {
+                "actions": ["create"],
+                "before": null,
+                "after": {
+                    "algorithm": "RSA",
+                    "ecdsa_curve": "P224",
+                    "rsa_bits": 4096
+                },
+                "after_unknown": {
+                    "id": true,
+                    "private_key_pem": true,
+                    "public_key_fingerprint_md5": true,
+                    "public_key_openssh": true,
+                    "public_key_pem": true
+                },
+                "before_sensitive": false,
+                "after_sensitive": {
+                    "private_key_pem": true
+                }
+            }
+        }
+    ],
+    "output_changes": {
+        "acebox_dashboard": {
+            "actions": ["create"],
+            "before": null,
+            "after_unknown": true,
+            "before_sensitive": false,
+            "after_sensitive": false
+        },
+        "acebox_ip": {
+            "actions": ["create"],
+            "before": null,
+            "after_unknown": true,
+            "before_sensitive": true,
+            "after_sensitive": true
+        },
+        "comment": {
+            "actions": ["create"],
+            "before": null,
+            "after": "More information about dashboard credentials is printed out as part of the last provisioning step. Please scroll up.",
+            "after_unknown": false,
+            "before_sensitive": false,
+            "after_sensitive": false
+        }
+    },
+    "prior_state": {
+        "format_version": "0.1",
+        "terraform_version": "0.15.4",
+        "values": {
+            "outputs": {
+                "comment": {
+                    "sensitive": false,
+                    "value": "More information about dashboard credentials is printed out as part of the last provisioning step. Please scroll up."
+                }
+            },
+            "root_module": {}
+        }
+    },
+    "configuration": {
+        "provider_config": {
+            "google": {
+                "name": "google",
+                "version_constraint": "\u003e= 3.58.0",
+                "expressions": {
+                    "credentials": {
+                        "references": ["var.gcloud_cred_file"]
+                    },
+                    "project": {
+                        "references": ["var.gcloud_project"]
+                    },
+                    "region": {
+                        "references": ["var.gcloud_zone"]
+                    }
+                }
+            },
+            "local": {
+                "name": "local",
+                "version_constraint": "~\u003e 1.4"
+            },
+            "random": {
+                "name": "random",
+                "version_constraint": "~\u003e 2.2"
+            }
+        },
+        "root_module": {
+            "outputs": {
+                "acebox_dashboard": {
+                    "expression": {
+                        "references": ["local.ingress_domain"]
+                    }
+                },
+                "acebox_ip": {
+                    "sensitive": true,
+                    "expression": {
+                        "references": ["path.module", "var.private_ssh_key", "var.acebox_user", "google_compute_instance.acebox"]
+                    }
+                },
+                "comment": {
+                    "expression": {
+                        "constant_value": "More information about dashboard credentials is printed out as part of the last provisioning step. Please scroll up."
+                    }
+                }
+            },
+            "resources": [{
+                    "address": "google_compute_address.acebox",
+                    "mode": "managed",
+                    "type": "google_compute_address",
+                    "name": "acebox",
+                    "provider_config_key": "google",
+                    "expressions": {
+                        "name": {
+                            "references": ["var.name_prefix", "random_id.uuid"]
+                        }
+                    },
+                    "schema_version": 0
+                }, {
+                    "address": "google_compute_firewall.acebox-http",
+                    "mode": "managed",
+                    "type": "google_compute_firewall",
+                    "name": "acebox-http",
+                    "provider_config_key": "google",
+                    "expressions": {
+                        "allow": [{
+                                "ports": {
+                                    "constant_value": ["80"]
+                                },
+                                "protocol": {
+                                    "constant_value": "tcp"
+                                }
+                            }
+                        ],
+                        "name": {
+                            "references": ["var.name_prefix", "random_id.uuid"]
+                        },
+                        "network": {
+                            "constant_value": "default"
+                        },
+                        "source_ranges": {
+                            "constant_value": ["0.0.0.0/0"]
+                        },
+                        "target_tags": {
+                            "references": ["var.name_prefix", "random_id.uuid"]
+                        }
+                    },
+                    "schema_version": 1
+                }, {
+                    "address": "google_compute_firewall.acebox-https",
+                    "mode": "managed",
+                    "type": "google_compute_firewall",
+                    "name": "acebox-https",
+                    "provider_config_key": "google",
+                    "expressions": {
+                        "allow": [{
+                                "ports": {
+                                    "constant_value": ["443", "16443"]
+                                },
+                                "protocol": {
+                                    "constant_value": "tcp"
+                                }
+                            }
+                        ],
+                        "name": {
+                            "references": ["var.name_prefix", "random_id.uuid"]
+                        },
+                        "network": {
+                            "constant_value": "default"
+                        },
+                        "source_ranges": {
+                            "constant_value": ["0.0.0.0/0"]
+                        },
+                        "target_tags": {
+                            "references": ["var.name_prefix", "random_id.uuid"]
+                        }
+                    },
+                    "schema_version": 1
+                }, {
+                    "address": "google_compute_instance.acebox",
+                    "mode": "managed",
+                    "type": "google_compute_instance",
+                    "name": "acebox",
+                    "provider_config_key": "google",
+                    "expressions": {
+                        "boot_disk": [{
+                                "initialize_params": [{
+                                        "image": {
+                                            "references": ["var.acebox_os"]
+                                        },
+                                        "size": {
+                                            "references": ["var.disk_size"]
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "machine_type": {
+                            "references": ["var.acebox_size"]
+                        },
+                        "metadata": {
+                            "references": ["var.acebox_user", "tls_private_key.acebox_key"]
+                        },
+                        "name": {
+                            "references": ["var.name_prefix", "random_id.uuid"]
+                        },
+                        "network_interface": [{
+                                "access_config": [{
+                                        "nat_ip": {
+                                            "references": ["google_compute_address.acebox"]
+                                        }
+                                    }
+                                ],
+                                "network": {
+                                    "constant_value": "default"
+                                }
+                            }
+                        ],
+                        "tags": {
+                            "references": ["var.name_prefix", "random_id.uuid"]
+                        },
+                        "zone": {
+                            "references": ["var.gcloud_zone"]
+                        }
+                    },
+                    "schema_version": 6
+                }, {
+                    "address": "google_dns_record_set.ace_box",
+                    "mode": "managed",
+                    "type": "google_dns_record_set",
+                    "name": "ace_box",
+                    "provider_config_key": "google",
+                    "expressions": {
+                        "managed_zone": {
+                            "references": ["var.managed_zone_name"]
+                        },
+                        "name": {
+                            "references": ["var.custom_domain"]
+                        },
+                        "rrdatas": {
+                            "references": ["google_compute_instance.acebox"]
+                        },
+                        "ttl": {
+                            "constant_value": 300
+                        },
+                        "type": {
+                            "constant_value": "A"
+                        }
+                    },
+                    "schema_version": 0,
+                    "count_expression": {
+                        "references": ["var.custom_domain", "var.managed_zone_name"]
+                    }
+                }, {
+                    "address": "local_file.acebox_pem",
+                    "mode": "managed",
+                    "type": "local_file",
+                    "name": "acebox_pem",
+                    "provider_config_key": "local",
+                    "expressions": {
+                        "content": {
+                            "references": ["tls_private_key.acebox_key"]
+                        },
+                        "file_permission": {
+                            "constant_value": 400
+                        },
+                        "filename": {
+                            "references": ["path.module", "var.private_ssh_key"]
+                        }
+                    },
+                    "schema_version": 0
+                }, {
+                    "address": "random_id.uuid",
+                    "mode": "managed",
+                    "type": "random_id",
+                    "name": "uuid",
+                    "provider_config_key": "random",
+                    "expressions": {
+                        "byte_length": {
+                            "constant_value": 4
+                        }
+                    },
+                    "schema_version": 0
+                }, {
+                    "address": "tls_private_key.acebox_key",
+                    "mode": "managed",
+                    "type": "tls_private_key",
+                    "name": "acebox_key",
+                    "provider_config_key": "tls",
+                    "expressions": {
+                        "algorithm": {
+                            "constant_value": "RSA"
+                        },
+                        "rsa_bits": {
+                            "constant_value": 4096
+                        }
+                    },
+                    "schema_version": 0
+                }
+            ],
+            "module_calls": {
+                "provisioner": {
+                    "source": "../modules/ace-box-provisioner",
+                    "expressions": {
+                        "dt_api_token": {
+                            "references": ["var.dt_api_token"]
+                        },
+                        "dt_paas_token": {
+                            "references": ["var.dt_paas_token"]
+                        },
+                        "dt_tenant": {
+                            "references": ["var.dt_tenant"]
+                        },
+                        "host": {
+                            "references": ["google_compute_instance.acebox"]
+                        },
+                        "ingress_domain": {
+                            "references": ["local.ingress_domain"]
+                        },
+                        "ingress_protocol": {
+                            "references": ["var.ingress_protocol"]
+                        },
+                        "private_key": {
+                            "references": ["tls_private_key.acebox_key"]
+                        },
+                        "user": {
+                            "references": ["var.acebox_user"]
+                        }
+                    },
+                    "module": {
+                        "resources": [{
+                                "address": "null_resource.provisioner_ace_install",
+                                "mode": "managed",
+                                "type": "null_resource",
+                                "name": "provisioner_ace_install",
+                                "provider_config_key": "provisioner:null",
+                                "provisioners": [{
+                                        "type": "remote-exec",
+                                        "expressions": {
+                                            "inline": {
+                                                "references": ["local.user"]
+                                            }
+                                        }
+                                    }
+                                ],
+                                "schema_version": 0,
+                                "depends_on": ["null_resource.provisioner_home_dir", "null_resource.provisioner_init", "null_resource.provisioner_ace_prepare"]
+                            }, {
+                                "address": "null_resource.provisioner_ace_prepare",
+                                "mode": "managed",
+                                "type": "null_resource",
+                                "name": "provisioner_ace_prepare",
+                                "provider_config_key": "provisioner:null",
+                                "provisioners": [{
+                                        "type": "remote-exec",
+                                        "expressions": {
+                                            "inline": {
+                                                "references": ["local.user", "local.ingress_domain", "local.ingress_protocol", "local.dt_tenant", "local.dt_api_token", "local.dt_paas_token"]
+                                            }
+                                        }
+                                    }
+                                ],
+                                "schema_version": 0,
+                                "depends_on": ["null_resource.provisioner_home_dir", "null_resource.provisioner_init"]
+                            }, {
+                                "address": "null_resource.provisioner_home_dir",
+                                "mode": "managed",
+                                "type": "null_resource",
+                                "name": "provisioner_home_dir",
+                                "provider_config_key": "provisioner:null",
+                                "provisioners": [{
+                                        "type": "file",
+                                        "expressions": {
+                                            "destination": {
+                                                "constant_value": "~"
+                                            },
+                                            "source": {
+                                                "references": ["local.user_skel_path"]
+                                            }
+                                        }
+                                    }
+                                ],
+                                "schema_version": 0
+                            }, {
+                                "address": "null_resource.provisioner_init",
+                                "mode": "managed",
+                                "type": "null_resource",
+                                "name": "provisioner_init",
+                                "provider_config_key": "provisioner:null",
+                                "provisioners": [{
+                                        "type": "remote-exec",
+                                        "expressions": {
+                                            "inline": {
+                                                "references": ["local.user", "local.user"]
+                                            }
+                                        }
+                                    }
+                                ],
+                                "schema_version": 0,
+                                "depends_on": ["null_resource.provisioner_home_dir"]
+                            }
+                        ],
+                        "variables": {
+                            "dt_api_token": {},
+                            "dt_paas_token": {},
+                            "dt_tenant": {},
+                            "host": {},
+                            "ingress_domain": {},
+                            "ingress_protocol": {},
+                            "private_key": {},
+                            "user": {}
+                        }
+                    }
+                }
+            },
+            "variables": {
+                "acebox_os": {
+                    "default": "ubuntu-minimal-1804-lts",
+                    "description": "Ubuntu version to use"
+                },
+                "acebox_size": {
+                    "default": "n2-standard-8",
+                    "description": "Size (machine type) of the ace-box instance"
+                },
+                "acebox_user": {
+                    "default": "ace",
+                    "description": "Initial user when ace-box is created",
+                    "sensitive": true
+                },
+                "custom_domain": {
+                    "default": "",
+                    "description": "Set to overwrite custom domain"
+                },
+                "disk_size": {
+                    "default": "60",
+                    "description": "Size of disk that will be available to ace-box instance"
+                },
+                "dt_api_token": {
+                    "description": "Dynatrace API token in format of 'dt0c01. ...'",
+                    "sensitive": true
+                },
+                "dt_paas_token": {
+                    "description": "Dynatrace PaaS token in format of 'dt0c01. ...'",
+                    "sensitive": true
+                },
+                "dt_tenant": {
+                    "description": "Dynatrace tenant in format of https://[environment-guid].live.dynatrace.com OR https://[managed-domain]/e/[environment-guid]",
+                    "sensitive": true
+                },
+                "gcloud_cred_file": {
+                    "description": "Path to GCloud credential file",
+                    "sensitive": true
+                },
+                "gcloud_project": {
+                    "description": "Google Cloud Project where resources will be created",
+                    "sensitive": true
+                },
+                "gcloud_zone": {
+                    "description": "Google Cloud Zone where resources will be created",
+                    "sensitive": true
+                },
+                "ingress_protocol": {
+                    "default": "http",
+                    "description": "Ingress protocol"
+                },
+                "managed_zone_name": {
+                    "default": "",
+                    "description": "Name of GCP managed zone"
+                },
+                "name_prefix": {
+                    "default": "ace-box-cloud",
+                    "description": "Prefix to distinguish the instance"
+                },
+                "private_ssh_key": {
+                    "default": "./key",
+                    "description": "Path of where to store private key on current module directory",
+                    "sensitive": true
+                }
+            }
+        }
+    }
+}
