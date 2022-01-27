@@ -10,7 +10,7 @@ actions:
           - job/checkov/plan1.json
         args:
           - '-f'
-          - /keptn/checkov/plan2.json
+          - /keptn/job/checkov/plan2.json
           - '--framework'
           - "terraform"
           - '-o'
