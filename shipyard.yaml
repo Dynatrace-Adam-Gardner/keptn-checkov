@@ -9,3 +9,4 @@ spec:
         - name: "securitycheck"
           tasks:
             - name: "securityscan"
+            - name: "outputmetrics"
